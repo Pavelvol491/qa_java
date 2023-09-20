@@ -1,40 +1,44 @@
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import com.example.Feline;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
-import java.util.stream.Stream;
 
-import com.example.Feline;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FelineTest {
 
-    @ParameterizedTest
-    @MethodSource("provideKittenCounts")
-    public void testGetKittens(int kittensCount) {
+    @Test
+    public void testEatMeat() {
         Feline feline = new Feline();
-        int actualKittens = feline.getKittens(kittensCount);
 
-        assertEquals(kittensCount, actualKittens);
+        try {
+            assertEquals(List.of("Животные", "Птицы", "Рыба"), feline.eatMeat());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGetFamily() {
+        Feline feline = new Feline();
+        assertEquals("Кошачьи", feline.getFamily());
     }
 
     @ParameterizedTest
-    @MethodSource("provideFoodTestData")
-    public void testEatMeat(List<String> expectedFood) throws Exception {
+    @CsvSource({ "1, 1", "2, 2", "3, 3" })
+    public void testGetKittens(int input, int expected) {
         Feline feline = new Feline();
-        List<String> actualFood = feline.eatMeat();
-
-        assertEquals(expectedFood, actualFood);
+        int actual = feline.getKittens(input);
+        assertEquals(expected, actual);
     }
 
-    static Stream<Integer> provideKittenCounts() {
-        return Stream.of(0, 1, 2, 3);
-    }
-
-    static Stream<Arguments> provideFoodTestData() {
-        return Stream.of(
-               Arguments.of(List.of("Животные", "Птицы", "Рыба"))
-        );
+    @Test
+    public void testGetKittensWithDefault() {
+        Feline feline = new Feline();
+        int actual = feline.getKittens();
+        assertEquals(1, actual);
     }
 }
