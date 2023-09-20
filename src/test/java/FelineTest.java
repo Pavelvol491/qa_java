@@ -1,5 +1,4 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -8,7 +7,6 @@ import com.example.Feline;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.Mockito;
 
 public class FelineTest {
 
@@ -24,12 +22,8 @@ public class FelineTest {
     @ParameterizedTest
     @MethodSource("provideFoodTestData")
     public void testEatMeat(List<String> expectedFood) throws Exception {
-       Feline felineMock = Mockito.mock(Feline.class);
-
-        when(felineMock.eatMeat()).thenReturn(expectedFood);
-
-        List<String> actualFood = felineMock.eatMeat();
-
+        Feline feline = new Feline();
+        List<String> actualFood = feline.eatMeat();
 
         assertEquals(expectedFood, actualFood);
     }
@@ -38,13 +32,9 @@ public class FelineTest {
         return Stream.of(0, 1, 2, 3);
     }
 
-
     static Stream<Arguments> provideFoodTestData() {
         return Stream.of(
-                Arguments.of(List.of("Мясо", "Кровь")),
-                Arguments.of(List.of("Рыба", "Птицы")),
-                Arguments.of(List.of("Трава", "Различные растения"))
-
+               Arguments.of(List.of("Животные", "Птицы", "Рыба"))
         );
     }
 }
