@@ -7,9 +7,9 @@ import org.mockito.Mockito;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 public class LionTest {
 
@@ -23,7 +23,6 @@ public class LionTest {
     @Test
     public void testGetKittens() {
         try {
-            // Устанавливаем ожидаемое поведение для метода getKittens() объекта Feline
             when(feline.getKittens()).thenReturn(3);
 
             Lion lion = new Lion("Самец", feline);
@@ -32,7 +31,7 @@ public class LionTest {
 
             assertEquals(3, actualKittens);
         } catch (Exception e) {
-            fail("Исключение не должно быть выброшено: " + e.getMessage());
+            fail("Exception should not be thrown: " + e.getMessage());
         }
     }
 
@@ -45,7 +44,7 @@ public class LionTest {
 
             assertEquals(true, hasMane);
         } catch (Exception e) {
-            fail("Исключение не должно быть выброшено: " + e.getMessage());
+            fail("Exception should not be thrown: " + e.getMessage());
         }
     }
 
@@ -58,7 +57,7 @@ public class LionTest {
 
             assertEquals(false, hasMane);
         } catch (Exception e) {
-            fail("Исключение не должно быть выброшено: " + e.getMessage());
+            fail("Exception should not be thrown: " + e.getMessage());
         }
     }
 
@@ -73,7 +72,15 @@ public class LionTest {
 
             assertEquals(Arrays.asList("Мясо", "Рыба"), food);
         } catch (Exception e) {
-            fail("Исключение не должно быть выброшено: " + e.getMessage());
+            fail("Exception should not be thrown: " + e.getMessage());
         }
+    }
+
+    @Test
+    public void testInvalidSexInConstructor() {
+        // Test that an exception is thrown when an invalid sex is provided
+        assertThrows(Exception.class, () -> {
+            new Lion("InvalidSex", feline);
+        });
     }
 }
